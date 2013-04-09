@@ -1,22 +1,22 @@
-import pylab
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.colors import LinearSegmentedColormap
-from matplotlib import cm
-import numpy
+# Copyright (c) 2007, Enthought, Inc.
+# License: BSD Style.
 
-def makeData ():
-    x = numpy.arange (-10, 10, 0.1)
-    y = numpy.arange (-10, 10, 0.1)
-    xgrid, ygrid = numpy.meshgrid(x, y)
 
-    zgrid = numpy.sin (xgrid) * numpy.sin (ygrid) / (xgrid * ygrid)
-    return xgrid, ygrid, zgrid
+from numpy import sin, cos, mgrid, pi, sqrt
+from mayavi import mlab
 
-x, y, z = makeData()
+mlab.figure(fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
+u, v = mgrid[-0.035:pi:0.01, -0.035:pi:0.01]
 
-fig = pylab.figure()
-axes = Axes3D(fig)
+X = 2/3.* (cos(u)* cos(2*v)
+           + sqrt(2)* sin(u)* cos(v))* cos(u) / (sqrt(2) - sin(2*u)* sin(3*v))
+Y = 2/3.* (cos(u)* sin(2*v) - sqrt(2)* sin(u)* sin(v))* cos(u) / (sqrt(2)
+                                                                  - sin(2*u)* sin(3*v))
+Z = -sqrt(2)* cos(u)* cos(u) / (sqrt(2) - sin(2*u)* sin(3*v))
+S = sin(u)
 
-axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.Spectral )
+mlab.mesh(X, Y, Z, scalars=S, colormap='YlGnBu', )
 
-pylab.show()
+# Nice view from the front
+mlab.view(.0, -5.0, 4)
+mlab.show()

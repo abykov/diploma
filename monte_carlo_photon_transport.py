@@ -96,6 +96,6 @@ fig = pylab.figure()
 axes = Axes3D(fig)
 
 #axes.plot_surface(y, x, z)
-axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.Spectral )
+axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.jet )
 
 pylab.show()
