@@ -8,6 +8,8 @@ import numpy
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+from mayavi import mlab
+from scipy.interpolate import griddata
 
 
 class PhotonTransport(object):
@@ -55,6 +57,8 @@ class PhotonTransport(object):
         '''
         j = 0
         for photon in xrange(self.NUMBERS):
+            if photon % 1000 == 0:
+                print str(photon) + " of " + str(self.NUMBERS)
             self.x = self.random_start(int(HEIGHT / 2) - 2, int(HEIGHT / 2) + 2)
             self.y = 0
             for i in xrange(self.LIFETIME):
@@ -69,7 +73,7 @@ class PhotonTransport(object):
 
                 if i > 0 and self.life_or_death():
                     j += 1
-                    self.tube[self.y][self.x] += 1
+                    self.tube[self.y][self.x] += 20
                     break
         return self.tube
 
@@ -87,10 +91,10 @@ def make_data():
 
 x, y, z = make_data()
 
-file = open("data.dat", 'w')
+'''file = open("data.dat", 'w')
 for i in xrange(HEIGHT):
     for j in xrange(WIDTH):
-        file.write(str(i) + '\t' + str(j) + '\t' + str(z[j][i]) + '\n')
+        file.write(str(i) + '\t' + str(j) + '\t' + str(z[j][i]) + '\n')'''
 
 fig = pylab.figure()
 axes = Axes3D(fig)
@@ -99,3 +103,9 @@ axes = Axes3D(fig)
 axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.jet )
 
 pylab.show()
+'''
+mlab.mesh(x, y, z, colormap='YlGnBu', )
+
+# Nice view from the front
+mlab.view(.0, -5.0, 4)
+mlab.show()'''

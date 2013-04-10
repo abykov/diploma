@@ -1,21 +1,30 @@
-# Copyright (c) 2007, Enthought, Inc.
-# License: BSD Style.
-
-
-from numpy import sin, cos, mgrid, pi, sqrt
+from scipy import *
 from mayavi import mlab
+from scipy.special import jn, jn_zeros
 
-mlab.figure(fgcolor=(0, 0, 0), bgcolor=(1, 1, 1))
-u, v = mgrid[-0.035:pi:0.01, -0.035:pi:0.01]
+def drumhead_height(n, k, distance, angle, t):
+    nth_zero = jn_zeros(n, k)
+    return cos(t)*cos(n*angle)*jn(n, distance*nth_zero)
 
-X = 2/3.* (cos(u)* cos(2*v)
-           + sqrt(2)* sin(u)* cos(v))* cos(u) / (sqrt(2) - sin(2*u)* sin(3*v))
-Y = 2/3.* (cos(u)* sin(2*v) - sqrt(2)* sin(u)* sin(v))* cos(u) / (sqrt(2)
-                                                                  - sin(2*u)* sin(3*v))
-Z = -sqrt(2)* cos(u)* cos(u) / (sqrt(2) - sin(2*u)* sin(3*v))
-S = sin(u)
+theta = r_[0:2*pi:50j]
+radius = r_[0:1:50j]
+x = array([r*cos(theta) for r in radius])
+y = array([r*sin(theta) for r in radius])
+z = array([drumhead_height(1, 1, r, theta, 0.5) for r in radius])
 
-mlab.mesh(X, Y, Z, scalars=S, colormap='YlGnBu', )
+import pylab
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+
+fig = pylab.figure()
+ax = Axes3D(fig)
+ax.plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.jet)
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+pylab.show()
+
+mlab.mesh(x, y, z, colormap='YlGnBu', )
 
 # Nice view from the front
 mlab.view(.0, -5.0, 4)

@@ -1,3 +1,4 @@
 !.gitignore
 *.dat
 *.pyc
+.idea
