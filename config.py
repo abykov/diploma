@@ -18,3 +18,7 @@ WIDTH = 500
 
 #ширина пробирки
 HEIGHT = 100
+
+#PLOT_BY = 'matplotlib'
+PLOT_BY = 'mayavi'
+#PLOT_BY = None

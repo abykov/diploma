@@ -3,7 +3,6 @@ __author__ = 'abykov'
 from config import *
 import math
 import random
-#import matplotlib.pyplot as plt
 import numpy
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
@@ -81,7 +80,6 @@ class PhotonTransport(object):
 MK = PhotonTransport()
 
 
-
 def make_data():
     x = numpy.arange(0, HEIGHT)
     y = numpy.arange(0, WIDTH)
@@ -89,23 +87,25 @@ def make_data():
     zgrid = MK.main()
     return xgrid, ygrid, zgrid
 
+
+def print_to_file():
+    file = open("data.dat", 'w')
+    for i in xrange(HEIGHT):
+        for j in xrange(WIDTH):
+            file.write(str(i) + '\t' + str(j) + '\t' + str(z[j][i]) + '\n')
+
+
+def plot_data(x, y, z):
+    if PLOT_BY == 'matplotlib':
+        fig = pylab.figure()
+        axes = Axes3D(fig)
+        #axes.plot_surface(y, x, z)
+        axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.jet )
+        pylab.show()
+    elif PLOT_BY == 'mayavi':
+        mlab.mesh(x, y, z, colormap='YlGnBu', )
+        mlab.view(.0, -5.0, 4)
+        mlab.show()
+
 x, y, z = make_data()
-
-'''file = open("data.dat", 'w')
-for i in xrange(HEIGHT):
-    for j in xrange(WIDTH):
-        file.write(str(i) + '\t' + str(j) + '\t' + str(z[j][i]) + '\n')'''
-
-fig = pylab.figure()
-axes = Axes3D(fig)
-
-#axes.plot_surface(y, x, z)
-axes.plot_surface(x, y, z, rstride=4, cstride=4, cmap = cm.jet )
-
-pylab.show()
-'''
-mlab.mesh(x, y, z, colormap='YlGnBu', )
-
-# Nice view from the front
-mlab.view(.0, -5.0, 4)
-mlab.show()'''
+plot_data(x, y, z)
