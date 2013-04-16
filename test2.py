@@ -1,3 +1,4 @@
+#-*- encoding: utf-8 -*-
 import numpy as np
 '''__author__ = 'abukov'
 from scipy.interpolate import interp1d
@@ -26,8 +27,9 @@ grid_x, grid_y = np.mgrid[0:1:100j, 0:1:200j]
 
 # but we only know its values at 1000 data points:
 
-points = np.random.rand(1000, 2)
+points = np.random.rand(1000, 2) #массив размером 1000x2 из случайных чисел от 0 до 1
 values = func(points[:,0], points[:,1])
+
 
 
 # This can be done with `griddata` -- below we try out all of the
@@ -44,10 +46,10 @@ grid_z2 = griddata(points, values, (grid_x, grid_y), method='cubic')
 
 import matplotlib.pyplot as plt
 
-plt.subplot(221)
-plt.imshow(func(grid_x, grid_y).T, extent=(0,1,0,1), origin='lower')
+#plt.subplot(221)
+#plt.imshow(func(grid_x, grid_y).T, extent=(0,1,0,1), origin='lower')
 plt.plot(points[:,0], points[:,1], 'k.', ms=1)
-plt.title('Original')
+'''plt.title('Original')
 
 plt.subplot(222)
 plt.imshow(grid_z0.T, extent=(0,1,0,1), origin='lower')
@@ -59,7 +61,7 @@ plt.title('Linear')
 
 plt.subplot(224)
 plt.imshow(grid_z2.T, extent=(0,1,0,1), origin='lower')
-plt.title('Cubic')
+plt.title('Cubic')'''
 
-plt.gcf().set_size_inches(6, 6)
+#plt.gcf().set_size_inches(6, 6)
 plt.show()
