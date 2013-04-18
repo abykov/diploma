@@ -8,6 +8,7 @@ import pylab
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from mayavi import mlab
+import matplotlib.pyplot as plt
 from scipy.interpolate import griddata
 
 
@@ -74,6 +75,7 @@ class PhotonTransport(object):
                     j += 1
                     self.tube[self.y][self.x] += 20
                     break
+        #print 'tube ' + str(self.tube) + 'len ' + str(len(self.tube))
         return self.tube
 
 
@@ -86,6 +88,13 @@ def make_data():
     xgrid, ygrid = numpy.meshgrid(x, y)
     zgrid = MK.main()
     return xgrid, ygrid, zgrid
+
+def make_grid(x, y, z):
+    points = []
+    data = []
+    for i in xrange(len(HEIGHT)):
+        for j in xrange(len(WIDTH)):
+            points
 
 
 def print_to_file():
@@ -108,4 +117,12 @@ def plot_data(x, y, z):
         mlab.show()
 
 x, y, z = make_data()
+#print 'len ' + str(len(z))
+#print 'len x y ' + str(len([x, y])) + str([x, y])
+print type(x)
 plot_data(x, y, z)
+
+
+#grid_z0 = griddata(points, data, (x, y), method='linear')
+#plt.imshow(z)
+#plt.show()

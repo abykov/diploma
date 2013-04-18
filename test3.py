@@ -7,11 +7,15 @@ def f(x, y):
 
 points = nu.random.rand(100, 2)
 data = f(points[:, 1], points[:, 0])
-grid_x, grid_y = nu.mgrid[-5:5:100j, -5:5:200j]
+grid_x, grid_y = nu.mgrid[-5:5:200j, -5:5:200j]
+points[1][1] = 0
+print points[1][1]
+print '\n'
+print data
 
-grid_z0 = griddata(points, data, (grid_x, grid_y), method='nearest')
-plt.imshow(f(grid_x, grid_y).T, extent=(-5,5,-5,5), origin='lower')
-plt.plot(points[:,0], points[:,1], 'k.', ms=1)
+grid_z0 = griddata(points, data, (grid_x, grid_y), method='linear')
+plt.imshow(f(grid_x, grid_y))
+#plt.plot(points[:,0], points[:,1], 'k.', ms=1)
 #plt.show()
 
 import pylab
