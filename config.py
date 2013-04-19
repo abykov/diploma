@@ -7,8 +7,11 @@ LIFETIME = 10000
 #Число фоторнов
 NUMBERS_OF_PHOTONS = 100000
 
+#Поглащение фотона
+LIFE_OR_DEATH = [True, False, False, False, False, False, False, False, False]
+
 #максимальная длинна свободного пробега
-FREE_PATH = 300
+FREE_PATH = 10
 
 #максимальный угол отклонения
 ANGLE = 360

@@ -21,6 +21,7 @@ class PhotonTransport(object):
         self.LIFETIME = LIFETIME
         self.FREE_PATH = FREE_PATH
         self.ANGLE = ANGLE
+        self.LIFE_OR_DEATH = LIFE_OR_DEATH
         self.tube = []
         for _ in xrange(WIDTH):
             self.tube.append([0] * HEIGHT)
@@ -49,7 +50,7 @@ class PhotonTransport(object):
         Этот метод случайным образом определяе поглотился фотон
         или отразился
         '''
-        return random.choice([True, False, False, False, False])
+        return random.choice(LIFE_OR_DEATH)
 
     def main(self):
         '''
@@ -76,7 +77,7 @@ class PhotonTransport(object):
                     self.tube[self.y][self.x] += 20
                     break
         #print 'tube ' + str(self.tube) + 'len ' + str(len(self.tube))
-        return self.tube
+        return (self.tube, j)
 
 
 MK = PhotonTransport()
@@ -86,8 +87,8 @@ def make_data():
     x = numpy.arange(0, HEIGHT)
     y = numpy.arange(0, WIDTH)
     xgrid, ygrid = numpy.meshgrid(x, y)
-    zgrid = MK.main()
-    return xgrid, ygrid, zgrid
+    zgrid, f_count = MK.main()
+    return xgrid, ygrid, zgrid, f_count
 
 def make_grid(x, y, z):
     points = []
@@ -116,10 +117,10 @@ def plot_data(x, y, z):
         mlab.view(.0, -5.0, 4)
         mlab.show()
 
-x, y, z = make_data()
+x, y, z, f_count = make_data()
 #print 'len ' + str(len(z))
 #print 'len x y ' + str(len([x, y])) + str([x, y])
-print type(x)
+print str(f_count) + ' photons is absorbed (' + str(float(f_count) / NUMBERS_OF_PHOTONS * 100.0) +' %)'
 plot_data(x, y, z)
 
 
