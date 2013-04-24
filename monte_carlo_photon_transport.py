@@ -65,8 +65,10 @@ class PhotonTransport(object):
             for i in xrange(self.LIFETIME):
                 angle = self.random_angle()
                 length = self.random_mean_free_path()
-                self.x += int(round(length * math.sin(angle)))
-                self.y += int(round(length * math.cos(angle)))
+                self.x += int(round(length * math.sin(
+                    float(angle - 90) / 180.0 * math.pi)))
+                self.y += int(round(length * math.cos(
+                    float(angle - 90) / 180.0 * math.pi)))
 
                 if self.x > len(self.tube[0]) - 1 or self.x < 0 or \
                    self.y > len(self.tube) - 1 or self.y < 0:
@@ -91,11 +93,13 @@ def make_data():
     return xgrid, ygrid, zgrid, f_count
 
 def make_grid(x, y, z):
-    points = []
+    #points = []
+    points = numpy.random.rand(HEIGHT * WIDTH, 2)
     data = []
     for i in xrange(len(HEIGHT)):
         for j in xrange(len(WIDTH)):
-            points
+            points[i][0] = 0
+            points[i][1] = 1
 
 
 def print_to_file():
@@ -118,8 +122,6 @@ def plot_data(x, y, z):
         mlab.show()
 
 x, y, z, f_count = make_data()
-#print 'len ' + str(len(z))
-#print 'len x y ' + str(len([x, y])) + str([x, y])
 print str(f_count) + ' photons is absorbed (' + str(float(f_count) / NUMBERS_OF_PHOTONS * 100.0) +' %)'
 plot_data(x, y, z)
 
@@ -127,3 +129,4 @@ plot_data(x, y, z)
 #grid_z0 = griddata(points, data, (x, y), method='linear')
 #plt.imshow(z)
 #plt.show()
+print y, len(y), len(y[1])
