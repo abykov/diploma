@@ -29,6 +29,7 @@ grid_x, grid_y = np.mgrid[0:1:100j, 0:1:200j]
 
 points = np.random.rand(1000, 2) #массив размером 1000x2 из случайных чисел от 0 до 1
 values = func(points[:,0], points[:,1])
+print type(values), type(points)
 
 
 

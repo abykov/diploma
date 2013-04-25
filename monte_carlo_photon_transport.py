@@ -10,6 +10,9 @@ from matplotlib import cm
 from mayavi import mlab
 import matplotlib.pyplot as plt
 from scipy.interpolate import griddata
+import datetime
+
+start = datetime.datetime.now()
 
 
 class PhotonTransport(object):
@@ -66,9 +69,9 @@ class PhotonTransport(object):
                 angle = self.random_angle()
                 length = self.random_mean_free_path()
                 self.x += int(round(length * math.sin(
-                    float(angle - 90) / 180.0 * math.pi)))
+                    float(angle - ANGLE / 2) / 180.0 * math.pi)))
                 self.y += int(round(length * math.cos(
-                    float(angle - 90) / 180.0 * math.pi)))
+                    float(angle - ANGLE / 2) / 180.0 * math.pi)))
 
                 if self.x > len(self.tube[0]) - 1 or self.x < 0 or \
                    self.y > len(self.tube) - 1 or self.y < 0:
@@ -78,7 +81,6 @@ class PhotonTransport(object):
                     j += 1
                     self.tube[self.y][self.x] += 20
                     break
-        #print 'tube ' + str(self.tube) + 'len ' + str(len(self.tube))
         return (self.tube, j)
 
 
@@ -92,14 +94,16 @@ def make_data():
     zgrid, f_count = MK.main()
     return xgrid, ygrid, zgrid, f_count
 
-def make_grid(x, y, z):
-    #points = []
-    points = numpy.random.rand(HEIGHT * WIDTH, 2)
-    data = []
-    for i in xrange(len(HEIGHT)):
-        for j in xrange(len(WIDTH)):
-            points[i][0] = 0
-            points[i][1] = 1
+
+def make_grid(z):
+    points = numpy.zeros((HEIGHT * WIDTH, 2))
+    data = numpy.zeros(HEIGHT * WIDTH)
+    for i in xrange(HEIGHT):
+        for j in xrange(WIDTH):
+            points[i * WIDTH + j][0] = i
+            points[i * WIDTH + j][1] = j
+            data[i * WIDTH + j]= z[j][i]
+    return points, data
 
 
 def print_to_file():
@@ -123,10 +127,15 @@ def plot_data(x, y, z):
 
 x, y, z, f_count = make_data()
 print str(f_count) + ' photons is absorbed (' + str(float(f_count) / NUMBERS_OF_PHOTONS * 100.0) +' %)'
+
+points, data = make_grid(z)
+
+grid_z0 = griddata(points, data, (x, y), method='cubic')
+
+stop = datetime.datetime.now()
+print 'operation time: ' + str(stop - start)
+
 plot_data(x, y, z)
-
-
-#grid_z0 = griddata(points, data, (x, y), method='linear')
-#plt.imshow(z)
-#plt.show()
-print y, len(y), len(y[1])
+plt.imshow(z)
+plt.show()
+#print y, len(y), len(y[1])

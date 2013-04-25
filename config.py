@@ -2,26 +2,26 @@
 __author__ = 'abykov'
 
 #Число итераций, в течении которых существует фотон
-LIFETIME = 1000
+LIFETIME = 1000000
 
 #Число фоторнов
-NUMBERS_OF_PHOTONS = 10000
+NUMBERS_OF_PHOTONS = 10000000
 
 #Поглащение фотона
-LIFE_OR_DEATH = [True, False, False, False, False, False, False, False, False]
+LIFE_OR_DEATH = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 
 #максимальная длинна свободного пробега
-FREE_PATH = 100
+FREE_PATH = 50
 
 #максимальный угол отклонения
-ANGLE = 180
+ANGLE = 120
 
-#высота пробитки
+#ширина пробитки
 WIDTH = 500
 
-#ширина пробирки
+#высота пробирки
 HEIGHT = 100
 
-PLOT_BY = 'matplotlib'
-#PLOT_BY = 'mayavi'
-#PLOT_BY = None
+PLOT_BY = None
+#PLOT_BY = 'matplotlib'
+PLOT_BY = 'mayavi'
