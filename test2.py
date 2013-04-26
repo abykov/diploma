@@ -29,7 +29,6 @@ grid_x, grid_y = np.mgrid[0:1:100j, 0:1:200j]
 
 points = np.random.rand(1000, 2) #массив размером 1000x2 из случайных чисел от 0 до 1
 values = func(points[:,0], points[:,1])
-print type(values), type(points)
 
 
 
@@ -40,6 +39,7 @@ from scipy.interpolate import griddata
 grid_z0 = griddata(points, values, (grid_x, grid_y), method='nearest')
 grid_z1 = griddata(points, values, (grid_x, grid_y), method='linear')
 grid_z2 = griddata(points, values, (grid_x, grid_y), method='cubic')
+print type(grid_z2[1][0])
 
 # One can see that the exact result is reproduced by all of the
 # methods to some degree, but for this smooth function the piecewise
